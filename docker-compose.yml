@@ -1,0 +1,8 @@
+version: '3'
+services:
+  api:
+    build:
+        context: .
+        dockerfile: ./src/main/docker/Dockerfile.native.multistage
+    ports: 
+        - "8080:8080"
