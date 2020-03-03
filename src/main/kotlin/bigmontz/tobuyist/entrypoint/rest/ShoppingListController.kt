@@ -1,49 +1,16 @@
 package bigmontz.tobuyist.entrypoint.rest
 
-import bigmontz.tobuyist.business.entity.Item
-import bigmontz.tobuyist.business.entity.ShoppingList
 import bigmontz.tobuyist.business.entity.State
 import bigmontz.tobuyist.business.entity.UnitOfMeasure
 import bigmontz.tobuyist.business.usecase.AddItemUseCase
 import bigmontz.tobuyist.business.usecase.DeleteItemUseCase
 import bigmontz.tobuyist.business.usecase.GetShoppingListUseCase
 import bigmontz.tobuyist.business.usecase.SetItemStateUseCase
+import bigmontz.tobuyist.entrypoint.rest.dto.*
 import java.util.*
-import java.util.concurrent.CompletableFuture
 import java.util.concurrent.CompletionStage
 import javax.ws.rs.*
 import javax.ws.rs.core.MediaType
-
-data class ItemDto  (
-        val uuid: UUID,
-        val product: String,
-        val quantity : Int,
-        val unitOfMeasure : String,
-        val state : String)
-
-data class ShoppingListDto(val name: String, val items: List<ItemDto>)
-
-data class CreateItemRequest(
-        val product: String,
-        val quantity: Int,
-        val unitOfMeasure: String)
-
-data class PatchItemRequestDto(val state: String)
-
-fun ShoppingList.toDto(): ShoppingListDto {
-    val name : String = this.name.value
-    val items : List<ItemDto> = map { it.toDto() }
-    return ShoppingListDto(name, items)
-}
-
-private fun Item.toDto(): ItemDto {
-    return ItemDto(
-            itemId.value,
-            product.value,
-            quantity,
-            unitOfMeasure.name,
-            state.name)
-}
 
 @Path(value = "/shopping-list")
 @Produces(MediaType.APPLICATION_JSON)
