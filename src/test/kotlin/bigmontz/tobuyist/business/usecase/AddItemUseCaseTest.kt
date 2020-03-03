@@ -242,6 +242,41 @@ internal class AddItemUseCaseTest {
 
     }
 
+    @Nested
+    inner class `when get an exception when it is getting a list` {
+        private val theException: RuntimeException = RuntimeException()
+
+        @BeforeEach
+        fun scenario() {
+            every {
+                getShoppingList.apply(GetShoppingList.Input(Name(input.shoppingListName)))
+            } returns CompletableFuture.failedStage(theException)
+        }
+
+        @Test
+        fun `it should return the exception as cause`() {
+            subject { _, ex ->
+                assertEquals(theException, ex?.cause)
+            }
+        }
+
+        @Test
+        fun `it should return no output`() {
+            subject { output, _ ->
+                assertNull(output)
+            }
+        }
+
+        @Test
+        fun `it should call the GetShoppingList with the correct input`() {
+            subject { _, _ ->
+                verify (exactly = 1) {
+                    getShoppingList.apply(GetShoppingList.Input(Name(input.shoppingListName)))
+                }
+            }
+        }
+    }
+
     fun subject(callback: (AddItemUseCase.Output?, Throwable?) -> Unit) =
             addItemUseCase.apply(input).handle(callback).toCompletableFuture().get()
 
