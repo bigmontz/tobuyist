@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Test
 import java.lang.RuntimeException
 import java.util.*
 import java.util.concurrent.CompletableFuture
-import java.util.concurrent.CompletionStage
 
 internal class GetShoppingListUseCaseTest {
     private lateinit var getShoppingList: GetShoppingList
@@ -55,7 +54,7 @@ internal class GetShoppingListUseCaseTest {
         @Test
         fun `it should return the shopping list`() {
             subject { output, _ ->
-                assertEquals(theShoppingList, output.shoppingList)
+                assertEquals(theShoppingList, output?.shoppingList)
             }
         }
 
@@ -90,7 +89,7 @@ internal class GetShoppingListUseCaseTest {
         @Test
         fun `it should return the shopping list`() {
             subject { output, _ ->
-                assertEquals(theShoppingList, output.shoppingList)
+                assertEquals(theShoppingList, output?.shoppingList)
             }
         }
 
@@ -123,9 +122,9 @@ internal class GetShoppingListUseCaseTest {
         }
 
         @Test
-        fun `it should return the exception`() {
+        fun `it should return the exception as cause`() {
             subject { _, ex ->
-                assertEquals(theException, ex)
+                assertEquals(theException, ex?.cause)
             }
         }
 
@@ -145,7 +144,8 @@ internal class GetShoppingListUseCaseTest {
             }
         }
     }
-    fun subject(callback: (GetShoppingListUseCase.Output, Throwable) -> Unit): CompletionStage<Unit> =
-            getShoppingListUseCase.apply(input).handle(callback)
+
+    fun subject(callback: (GetShoppingListUseCase.Output?, Throwable?) -> Unit): Unit =
+            getShoppingListUseCase.apply(input).handle(callback).toCompletableFuture().get()
 }
 
