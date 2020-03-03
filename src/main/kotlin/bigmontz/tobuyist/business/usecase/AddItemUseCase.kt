@@ -20,7 +20,7 @@ class AddItemUseCase(
                 .thenApply { addItem(it, itemId, input) }
                 .thenCompose {
                     storeShoppingList.apply(StoreShoppingList.Input(it))
-                        .thenApply { output ->  Output(output.name.value, it.item(itemId)!!) }
+                        .thenApply { output -> Output(output.name.value, it.item(itemId)!!) }
                 }
     }
 
