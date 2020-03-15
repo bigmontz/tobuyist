@@ -57,7 +57,7 @@ internal class AddItemUseCaseTest {
         fun scenario() {
             every {
                 getShoppingList.apply(getShoppingListInput)
-            } returns CompletableFuture.completedStage(GetShoppingList.Output(shoppingList = null))
+            } returns CompletableFuture.completedFuture(GetShoppingList.Output(shoppingList = null))
         }
 
         @Nested
@@ -70,7 +70,7 @@ internal class AddItemUseCaseTest {
             fun scenario() {
                 every {
                     storeShoppingList.apply(StoreShoppingList.Input(shoppingList = expectedShoppingList))
-                } returns CompletableFuture.completedStage(StoreShoppingList.Output(expectedShoppingList.name))
+                } returns CompletableFuture.completedFuture(StoreShoppingList.Output(expectedShoppingList.name))
             }
 
             @Test
@@ -101,7 +101,7 @@ internal class AddItemUseCaseTest {
             fun scenario() {
                 every {
                     storeShoppingList.apply(StoreShoppingList.Input(shoppingList = expectedShoppingList))
-                } returns CompletableFuture.failedStage(theException)
+                } returns CompletableFuture.supplyAsync { throw theException }
             }
 
             @Test
@@ -151,7 +151,7 @@ internal class AddItemUseCaseTest {
         fun scenario() {
             every {
                 getShoppingList.apply(getShoppingListInput)
-            } returns CompletableFuture.completedStage(GetShoppingList.Output(shoppingList = storedShoppingList))
+            } returns CompletableFuture.completedFuture(GetShoppingList.Output(shoppingList = storedShoppingList))
         }
 
         @Nested
@@ -164,7 +164,7 @@ internal class AddItemUseCaseTest {
             fun scenario() {
                 every {
                     storeShoppingList.apply(StoreShoppingList.Input(shoppingList = expectedShoppingList))
-                } returns CompletableFuture.completedStage(StoreShoppingList.Output(expectedShoppingList.name))
+                } returns CompletableFuture.completedFuture(StoreShoppingList.Output(expectedShoppingList.name))
             }
 
             @Test
@@ -194,7 +194,7 @@ internal class AddItemUseCaseTest {
             fun scenario() {
                 every {
                     getShoppingList.apply(getShoppingListInput)
-                } returns CompletableFuture.completedStage(GetShoppingList.Output(shoppingList = expectedShoppingList))
+                } returns CompletableFuture.completedFuture(GetShoppingList.Output(shoppingList = expectedShoppingList))
             }
 
             @Test
@@ -226,7 +226,7 @@ internal class AddItemUseCaseTest {
             fun scenario() {
                 every {
                     storeShoppingList.apply(StoreShoppingList.Input(shoppingList = expectedShoppingList))
-                } returns CompletableFuture.failedStage(theException)
+                } returns CompletableFuture.supplyAsync { throw theException }
             }
 
             @Test
@@ -250,7 +250,7 @@ internal class AddItemUseCaseTest {
         fun scenario() {
             every {
                 getShoppingList.apply(GetShoppingList.Input(Name(input.shoppingListName)))
-            } returns CompletableFuture.failedStage(theException)
+            } returns CompletableFuture.supplyAsync { throw theException }
         }
 
         @Test

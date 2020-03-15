@@ -48,7 +48,7 @@ internal class GetShoppingListUseCaseTest {
         fun scenario() {
             every {
                 getShoppingList.apply(GetShoppingList.Input(name))
-            } returns CompletableFuture.completedStage(GetShoppingList.Output(shoppingList = theShoppingList))
+            } returns CompletableFuture.completedFuture(GetShoppingList.Output(shoppingList = theShoppingList))
         }
 
         @Test
@@ -83,7 +83,7 @@ internal class GetShoppingListUseCaseTest {
         fun scenario() {
             every {
                 getShoppingList.apply(GetShoppingList.Input(name))
-            } returns CompletableFuture.completedStage(GetShoppingList.Output(shoppingList = null))
+            } returns CompletableFuture.completedFuture(GetShoppingList.Output(shoppingList = null))
         }
 
         @Test
@@ -118,7 +118,7 @@ internal class GetShoppingListUseCaseTest {
         fun scenario() {
             every {
                 getShoppingList.apply(GetShoppingList.Input(name))
-            } returns CompletableFuture.failedStage(theException)
+            } returns CompletableFuture.supplyAsync { throw theException }
         }
 
         @Test
