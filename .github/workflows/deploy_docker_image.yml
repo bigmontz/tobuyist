@@ -1,0 +1,21 @@
+name: Deploy Docker Image
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  push:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build the Docker Image
+        run: docker build . --file ./src/main/docker/Dockerfile.native.multistage --tag bigmontz/tobuyist-api:$GITHUB_SHA
+      - name: Log into registry
+        run: echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u ${{ github.actor }} --password-stdin
+      - name: Tag Image as Latest
+        run: docker tag bigmontz/tobuyist-api:$GITHUB_SHA bigmontz/tobuyist-api:latest
+      - name: Push the Docker Image
+        run: docker push bigmontz/tobuyist-api:$GITHUB_SHA
+      - name: Push the Docker Image (lastest)
+        run: docker push bigmontz/tobuyist-api:latest

@@ -1,3 +1,5 @@
+![Deploy Docker Image CI](https://github.com/bigmontz/tobuyist/workflows/Deploy%20Docker%20Image%20CI/badge.svg)
+
 # tobuyist project
 
 This project uses Quarkus, the Supersonic Subatomic Java Framework.
