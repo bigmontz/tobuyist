@@ -54,7 +54,7 @@ internal class DeleteItemUseCaseTest {
         fun scenario() {
             every {
                 getShoppingList.apply(GetShoppingList.Input(Name(shoppingListName)))
-            } returns CompletableFuture.completedStage( GetShoppingList.Output(shoppingList))
+            } returns CompletableFuture.completedFuture( GetShoppingList.Output(shoppingList))
         }
 
         @Nested
@@ -71,7 +71,7 @@ internal class DeleteItemUseCaseTest {
                 fun scenario() {
                     every {
                         storeShoppingList.apply(any())
-                    } returns CompletableFuture.completedStage(StoreShoppingList.Output(name = Name(shoppingListName)))
+                    } returns CompletableFuture.completedFuture(StoreShoppingList.Output(name = Name(shoppingListName)))
                 }
 
                 @Test
@@ -111,7 +111,7 @@ internal class DeleteItemUseCaseTest {
                 fun scenario() {
                     every {
                         storeShoppingList.apply(any())
-                    } returns CompletableFuture.failedFuture(theException)
+                    } returns CompletableFuture.supplyAsync { throw theException }
                 }
 
                 @Test
@@ -144,7 +144,7 @@ internal class DeleteItemUseCaseTest {
                 fun scenario() {
                     every {
                         storeShoppingList.apply(any())
-                    } returns CompletableFuture.completedStage(StoreShoppingList.Output(name = Name(shoppingListName)))
+                    } returns CompletableFuture.completedFuture(StoreShoppingList.Output(name = Name(shoppingListName)))
                 }
 
                 @Test
@@ -182,7 +182,7 @@ internal class DeleteItemUseCaseTest {
                 fun scenario() {
                     every {
                         storeShoppingList.apply(any())
-                    } returns CompletableFuture.failedFuture(theException)
+                    } returns CompletableFuture.supplyAsync { throw theException }
                 }
 
                 @Test
@@ -213,7 +213,7 @@ internal class DeleteItemUseCaseTest {
         fun scenario() {
             every {
                 getShoppingList.apply(GetShoppingList.Input(Name((input.shoppingListName))))
-            } returns CompletableFuture.completedStage(GetShoppingList.Output(null))
+            } returns CompletableFuture.completedFuture(GetShoppingList.Output(null))
         }
 
         @Test
@@ -242,7 +242,7 @@ internal class DeleteItemUseCaseTest {
         fun scenario() {
             every {
                 getShoppingList.apply(GetShoppingList.Input(Name((input.shoppingListName))))
-            } returns CompletableFuture.failedFuture(theException)
+            } returns CompletableFuture.supplyAsync { throw theException }
         }
 
         @Test
