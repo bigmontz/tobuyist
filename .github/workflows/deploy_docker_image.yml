@@ -3,6 +3,8 @@ name: Deploy Docker Image
 on:
   push:
     branches: [ master ]
+    paths-ignore:
+      - '**.md'
 
 jobs:
   push:
