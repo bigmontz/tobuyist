@@ -1,4 +1,4 @@
-![Build Docker Image](https://github.com/bigmontz/tobuyist/workflows/Build%20Docker%20Image/badge.svg)
+![Deploy Docker Image](https://github.com/bigmontz/tobuyist/workflows/Deploy%20Docker%20Image/badge.svg)
 
 # tobuyist project
 
