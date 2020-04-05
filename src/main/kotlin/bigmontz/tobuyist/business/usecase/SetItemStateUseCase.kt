@@ -17,10 +17,11 @@ class SetItemStateUseCase (
         val itemId = ItemId(input.itemId)
         return getShoppingList.apply(GetShoppingList.Input(name))
                 .thenApply { it.shoppingList ?: ShoppingList(name = name) }
+                .thenApply { if (it.item(itemId)?.let { true } == true) it else throw ResourceNotFound("Item ${input.itemId} not found") }
                 .thenApply { it.editItem(itemId = itemId) { item -> item.copy(state = input.state) }}
                 .thenCompose {
                     storeShoppingList.apply(StoreShoppingList.Input(it)).thenApply {
-                        _ -> Output(it.item(itemId)?: throw ResourceNotFound("Item ${input.itemId} not found"))
+                        _ -> Output(it.item(itemId)!!)
                     }
                 }
     }
