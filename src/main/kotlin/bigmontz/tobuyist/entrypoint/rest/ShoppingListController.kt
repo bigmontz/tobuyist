@@ -60,8 +60,8 @@ class ShoppingListController(
     @Path(value = "/{name}/item/{itemId}")
     fun delete(
             @PathParam(value = "name") name: String,
-            @PathParam(value = "itemId") itemId: UUID) : CompletionStage<UUID> =
+            @PathParam(value = "itemId") itemId: UUID) : CompletionStage<Map<String, Any>> =
                 deleteItemUseCase.apply(DeleteItemUseCase.Input(name, itemId))
-                        .thenApply { it.itemId }
+                        .thenApply { mapOf(Pair("uuid", it.itemId)) }
 
 }
